@@ -435,8 +435,8 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "@shapeshiftoss/gnosis-api",
-		"version": "9.3.0",
+		"title": "@shapeshiftoss/blackfury-api",
+		"version": "9.4.0",
 		"license": {
 			"name": "MIT"
 		},

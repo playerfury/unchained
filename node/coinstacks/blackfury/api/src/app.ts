@@ -22,7 +22,7 @@ const INDEXER_WS_URL = process.env.INDEXER_WS_URL
 if (!INDEXER_WS_URL) throw new Error('INDEXER_WS_URL env var not set')
 
 export const logger = new Logger({
-  namespace: ['unchained', 'coinstacks', 'gnosis', 'api'],
+  namespace: ['unchained', 'coinstacks', 'blackfury', 'api'],
   level: process.env.LOG_LEVEL,
 })
 
@@ -32,11 +32,11 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(cors())
 
-app.get('/health', async (_, res) => res.json({ status: 'up', asset: 'gnosis', connections: wsServer.clients.size }))
+app.get('/health', async (_, res) => res.json({ status: 'up', asset: 'blackfury', connections: wsServer.clients.size }))
 
 const options: swaggerUi.SwaggerUiOptions = {
   customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'ShapeShift Gnosis API Docs',
+  customSiteTitle: 'ShapeShift Blackfury API Docs',
   customfavIcon: '/public/favi-blue.png',
   swaggerUrl: '/swagger.json',
 }

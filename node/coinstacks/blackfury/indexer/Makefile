@@ -2,7 +2,7 @@ IMAGE = blockbook
 PACKAGER = $(shell id -u):$(shell id -g)
 
 gen-config:
-	- docker run --platform linux/amd64 --rm -t -e PACKAGER=$(PACKAGER) -v "$(CURDIR):/out" $(IMAGE) ./generate-config.sh gnosis
+	- docker run --platform linux/amd64 --rm -t -e PACKAGER=$(PACKAGER) -v "$(CURDIR):/out" $(IMAGE) ./generate-config.sh blackfury
 
 run:
 	- mkdir -p db

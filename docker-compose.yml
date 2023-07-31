@@ -45,7 +45,7 @@ services:
       - osmosis_default
       - polygon_default
       - thorchain_default
-      - gnosis_default
+      - blackfury_default
     ports:
       # The HTTP port
       - "80:80"
@@ -80,5 +80,5 @@ networks:
     name: polygon_default
   thorchain_default:
     name: thorchain_default
-  gnosis_default:
-    name: gnosis_default
+  blackfury_default:
+    name: blackfury_default

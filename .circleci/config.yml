@@ -654,13 +654,13 @@ aliases:
     api-memory-limit: 250Mi
     stateful-service-replicas: 1
 
-  - &gnosis
-    assetName: gnosis
+  - &blackfury
+    assetName: blackfury
     pulumi-stack: public-us-east-2
-    pulumi-dir: coinstacks/gnosis/pulumi
-    rpc-url: http://gnosis-svc.unchained.svc.cluster.local:8545
-    indexer-url: http://gnosis-svc.unchained.svc.cluster.local:8001
-    indexer-ws-url: ws://gnosis-svc.unchained.svc.cluster.local:8001/websocket
+    pulumi-dir: coinstacks/blackfury/pulumi
+    rpc-url: http://blackfury-svc.unchained.svc.cluster.local:8545
+    indexer-url: http://blackfury-svc.unchained.svc.cluster.local:8001
+    indexer-ws-url: ws://blackfury-svc.unchained.svc.cluster.local:8001/websocket
     api: true
     api-autoscaling: true
     api-replicas: 2
@@ -683,19 +683,19 @@ aliases:
     service-memory-limit-2: 4Gi
     service-storage-size-2: 500Gi
     service-name-3: indexer
-    service-image-3: shapeshiftdao/unchained-blockbook:gnosis-7fc9809
+    service-image-3: shapeshiftdao/unchained-blockbook:blackfury-7fc9809
     service-cpu-limit-3: "2"
     service-cpu-request-3: "1"
     service-memory-limit-3: 24Gi
     service-storage-size-3: 500Gi
 
-  - &gnosis-dev
-    <<: *gnosis
+  - &blackfury-dev
+    <<: *blackfury
     environment: dev
     pulumi-stack: public-dev-us-east-2
-    rpc-url: http://gnosis-svc.unchained-dev.svc.cluster.local:8545
-    indexer-url: http://gnosis-svc.unchained-dev.svc.cluster.local:8001
-    indexer-ws-url: ws://gnosis-svc.unchained-dev.svc.cluster.local:8001/websocket
+    rpc-url: http://blackfury-svc.unchained-dev.svc.cluster.local:8545
+    indexer-url: http://blackfury-svc.unchained-dev.svc.cluster.local:8001
+    indexer-ws-url: ws://blackfury-svc.unchained-dev.svc.cluster.local:8001/websocket
     api-replicas: 1
     api-max-replicas: 2
     api-memory-limit: 2Gi
@@ -1269,13 +1269,13 @@ workflows:
           <<: *only-develop
 
       - deploy-coinstack-node:
-          name: deploy gnosis develop
+          name: deploy blackfury develop
           organization: TAXISTAKE
           pulumi-command: up -f --yes
-          etherscan-env-var: ETHERSCAN_API_KEY_GNOSIS
+          etherscan-env-var: ETHERSCAN_API_KEY_BLACKFURY
           requires:
             - deploy dependencies
-          <<: *gnosis-dev
+          <<: *blackfury-dev
           <<: *only-develop
 
       - deploy-coinstack-go:
@@ -1610,30 +1610,30 @@ workflows:
           <<: *polygon
           <<: *only-main
 
-      ####### GNOSIS
+      ####### BLACKFURY
       - deploy-coinstack-node:
-          name: preview gnosis
+          name: preview blackfury
           organization: TAXISTAKE
           pulumi-command: preview
           requires:
             - validate dependencies
-          <<: *gnosis
+          <<: *blackfury
           <<: *only-main
 
       - approve-coinstack:
-          name: approve gnosis coinstack
+          name: approve blackfury coinstack
           type: approval
           requires:
-            - preview gnosis
+            - preview blackfury
           <<: *only-main
 
       - deploy-coinstack-node:
-          name: deploy gnosis
+          name: deploy blackfury
           organization: TAXISTAKE
           pulumi-command: up -f --yes
           requires:
-            - approve gnosis coinstack
-          <<: *gnosis
+            - approve blackfury coinstack
+          <<: *blackfury
           <<: *only-main
 
       ####### COSMOS

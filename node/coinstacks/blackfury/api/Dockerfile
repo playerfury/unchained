@@ -3,5 +3,5 @@ ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
 # Include app
-WORKDIR /app/node/coinstacks/gnosis/api
+WORKDIR /app/node/coinstacks/blackfury/api
 COPY . .

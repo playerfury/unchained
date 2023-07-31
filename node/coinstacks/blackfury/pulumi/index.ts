@@ -6,7 +6,7 @@ import { defaultBlockbookServiceArgs } from '../../../packages/blockbook/src/con
 //https://www.pulumi.com/docs/intro/languages/javascript/#entrypoint
 export = async (): Promise<Outputs> => {
   const appName = 'unchained'
-  const coinstack = 'gnosis'
+  const coinstack = 'blackfury'
   const sampleEnv = readFileSync('../sample.env')
   const { kubeconfig, config, namespace } = await getConfig()
 
@@ -30,13 +30,13 @@ export = async (): Promise<Outputs> => {
           command: [
             '/usr/local/bin/lighthouse',
             'beacon_node',
-            '--network=gnosis',
+            '--network=blackfury',
             '--disable-upnp',
             '--datadir=/data',
             '--http',
             '--execution-endpoint=http://localhost:8551',
             '--execution-jwt=/jwt.hex',
-            '--checkpoint-sync-url=https://checkpoint.gnosischain.com/',
+            '--checkpoint-sync-url=https://checkpoint.blackfurychain.com/',
           ],
           configMapData: { 'jwt.hex': readFileSync('../daemon/jwt.hex').toString() },
           volumeMounts: [{ name: 'config-map', mountPath: '/jwt.hex', subPath: 'jwt.hex' }],
