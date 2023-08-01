@@ -1,6 +1,6 @@
 {
-  "name": "@shapeshiftoss/blackfury-pulumi",
-  "version": "11.1.0",
+  "name": "@shapeshiftoss/fury-pulumi",
+  "version": "11.2.0",
   "license": "MIT",
   "private": true,
   "scripts": {

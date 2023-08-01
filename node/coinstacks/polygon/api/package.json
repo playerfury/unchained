@@ -1,6 +1,6 @@
 {
   "name": "@shapeshiftoss/polygon-api",
-  "version": "11.1.0",
+  "version": "11.2.0",
   "license": "MIT",
   "private": true,
   "files": [
@@ -12,7 +12,7 @@
     "generate": "tsoa spec-and-routes"
   },
   "dependencies": {
-    "@shapeshiftoss/blockbook": "^11.1.0",
-    "@shapeshiftoss/common-api": "^11.1.0"
+    "@shapeshiftoss/blockbook": "^11.2.0",
+    "@shapeshiftoss/common-api": "^11.2.0"
   }
 }
