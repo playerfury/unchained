@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    image: unchained-local-node
+    env_file: .env
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.highbury-api.rule=Host(`api.highbury.localhost`)'
+      - 'traefik.http.services.highbury-api.loadbalancer.server.port=3000'
+    working_dir: /app/node/coinstacks/highbury/api
+    command: yarn nodemon
+    volumes:
+      - ../../..:/app
+    networks:
+      - highbury
+
+networks:
+  highbury:
+    name: highbury_default
+    external: true
