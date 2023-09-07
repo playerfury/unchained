@@ -4,11 +4,11 @@ set -e
 
 start() {
   MONIKER=unchained \
-  CHAIN_JSON=https://raw.githubusercontent.com/cosmos/chain-registry/master/cosmoshub/chain.json \
+  CHAIN_JSON=https://raw.githubusercontent.com/incubus-network/wallet-icons/main/chain.json \
   P2P_POLKACHU=true \
-  run.sh gaiad start \
+  run.sh fury start \
     --rpc.laddr tcp://0.0.0.0:26657 \
-    --minimum-gas-prices 0uatom &
+    --minimum-gas-prices 0ufury &
   PID="$!"
 }
 

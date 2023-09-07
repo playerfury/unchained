@@ -7,8 +7,8 @@
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Provides access to cosmos chain data.",
-    "title": "Cosmos Unchained API",
+    "description": "Provides access to highbury chain data.",
+    "title": "Highbury Unchained API",
     "license": {
       "name": "MIT",
       "url": "http://opensource.org/licenses/MIT"
@@ -413,7 +413,7 @@
           "$ref": "#/definitions/Staking"
         }
       ],
-      "x-go-package": "github.com/shapeshift/unchained/coinstacks/fury/api"
+      "x-go-package": "github.com/shapeshift/unchained/coinstacks/highbury/api"
     },
     "ApiError": {
       "description": "Generic api error for handling failed requests",
@@ -691,42 +691,18 @@
         {
           "type": "object",
           "required": [
-            "totalSupply",
-            "bondedTokens",
-            "apr",
-            "annualProvisions",
-            "communityTax"
+            "apr"
           ],
           "properties": {
-            "annualProvisions": {
-              "type": "string",
-              "x-go-name": "AnnualProvisions",
-              "example": "29255184955917.174457731278996910"
-            },
             "apr": {
               "type": "string",
               "x-go-name": "APR",
               "example": "0.1541068456"
-            },
-            "bondedTokens": {
-              "type": "string",
-              "x-go-name": "BondedTokens",
-              "example": "186039736185555"
-            },
-            "communityTax": {
-              "type": "string",
-              "x-go-name": "CommunityTax",
-              "example": "0.020000000000000000"
-            },
-            "totalSupply": {
-              "type": "string",
-              "x-go-name": "TotalSupply",
-              "example": "291107634956378"
             }
           }
         }
       ],
-      "x-go-package": "github.com/shapeshift/unchained/coinstacks/fury/api"
+      "x-go-package": "github.com/shapeshift/unchained/coinstacks/highbury/api"
     },
     "InternalServerError": {
       "description": "Contains info about a 500 Internal Server Error response",

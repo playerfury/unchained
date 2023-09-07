@@ -6,6 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/signing"
 	"github.com/pkg/errors"
+	"github.com/shapeshift/unchained/coinstacks/highbury"
 	"github.com/shapeshift/unchained/pkg/api"
 	"github.com/shapeshift/unchained/pkg/cosmos"
 	"golang.org/x/sync/errgroup"
@@ -13,6 +14,7 @@ import (
 
 type Handler struct {
 	*cosmos.Handler
+	HTTPClient *highbury.HTTPClient
 }
 
 // Contains info about the running coinstack
@@ -21,20 +23,8 @@ type Info struct {
 	// swagger:allOf
 	cosmos.Info
 	// required: true
-	// example: 291107634956378
-	TotalSupply string `json:"totalSupply"`
-	// required: true
-	// example: 186039736185555
-	BondedTokens string `json:"bondedTokens"`
-	// required: true
 	// example: 0.1541068456
 	APR string `json:"apr"`
-	// required: true
-	// example: 29255184955917.174457731278996910
-	AnnualProvisions string `json:"annualProvisions"`
-	// required: true
-	// example: 0.020000000000000000
-	CommunityTax string `json:"communityTax"`
 }
 
 func (h *Handler) GetInfo() (api.Info, error) {
@@ -49,12 +39,8 @@ func (h *Handler) GetInfo() (api.Info, error) {
 	}
 
 	i := Info{
-		Info:             info.(cosmos.Info),
-		TotalSupply:      aprData.totalSupply,
-		BondedTokens:     aprData.bondedTokens,
-		AnnualProvisions: aprData.annualProvisions,
-		CommunityTax:     aprData.communityTax,
-		APR:              aprData.rate,
+		Info: info.(cosmos.Info),
+		APR:  aprData.rate,
 	}
 
 	return i, nil
@@ -139,7 +125,7 @@ func (h *Handler) GetValidator(address string) (*cosmos.Validator, error) {
 }
 
 func (h *Handler) ParseMessages(msgs []sdk.Msg, events cosmos.EventsByMsgIndex) []cosmos.Message {
-	return cosmos.ParseMessages(msgs, events)
+	return highbury.ParseMessages(msgs, events)
 }
 
 func (h *Handler) ParseFee(tx signing.Tx, txid string, denom string) cosmos.Value {
@@ -147,64 +133,20 @@ func (h *Handler) ParseFee(tx signing.Tx, txid string, denom string) cosmos.Valu
 }
 
 type APRData struct {
-	annualProvisions  string
-	bondedTokens      string
-	communityTax      string
-	rate              string
-	totalSupply       string
-	bAnnualProvisions *big.Float
-	bBondedTokens     *big.Float
-	bCommunityTax     *big.Float
-	bRate             *big.Float
-	bTotalSupply      *big.Float
+	bondedTokens          string
+	epochProvisions       string
+	rate                  string
+	stakingDistributions  string
+	bBondedTokens         *big.Float
+	bEpochProvisions      *big.Float
+	bRate                 *big.Float
+	bStakingDistributions *big.Float
 }
 
 func (h *Handler) getAPRData() (*APRData, error) {
 	aprData := &APRData{}
 
 	g := new(errgroup.Group)
-
-	g.Go(func() error {
-		totalSupply, err := h.HTTPClient.GetTotalSupply(h.Denom)
-		if err != nil {
-			return err
-		}
-
-		bTotalSupply, _, err := new(big.Float).Parse(totalSupply, 10)
-
-		aprData.totalSupply = totalSupply
-		aprData.bTotalSupply = bTotalSupply
-
-		return err
-	})
-
-	g.Go(func() error {
-		annualProvisions, err := h.HTTPClient.GetAnnualProvisions()
-		if err != nil {
-			return err
-		}
-
-		bAnnualProvisions, _, err := new(big.Float).Parse(annualProvisions, 10)
-
-		aprData.annualProvisions = annualProvisions
-		aprData.bAnnualProvisions = bAnnualProvisions
-
-		return err
-	})
-
-	g.Go(func() error {
-		communityTax, err := h.HTTPClient.GetCommunityTax()
-		if err != nil {
-			return err
-		}
-
-		bCommunityTax, _, err := new(big.Float).Parse(communityTax, 10)
-
-		aprData.communityTax = communityTax
-		aprData.bCommunityTax = bCommunityTax
-
-		return err
-	})
 
 	g.Go(func() error {
 		bondedTokens, err := h.HTTPClient.GetBondedTokens()
@@ -220,16 +162,45 @@ func (h *Handler) getAPRData() (*APRData, error) {
 		return err
 	})
 
+	g.Go(func() error {
+		epochProvisions, err := h.HTTPClient.GetEpochProvisions()
+		if err != nil {
+			return err
+		}
+
+		bEpochProvisions, _, err := new(big.Float).Parse(epochProvisions, 10)
+
+		aprData.epochProvisions = epochProvisions
+		aprData.bEpochProvisions = bEpochProvisions
+
+		return err
+	})
+
+	g.Go(func() error {
+		stakingDistributions, err := h.HTTPClient.GetStakingDistributions()
+		if err != nil {
+			return err
+		}
+
+		bStakingDistributions, _, err := new(big.Float).Parse(stakingDistributions, 10)
+
+		aprData.stakingDistributions = stakingDistributions
+		aprData.bStakingDistributions = bStakingDistributions
+
+		return err
+	})
+
 	if err := g.Wait(); err != nil {
 		return nil, err
 	}
 
-	// stakingAPR = [Inflation * (1-Community Tax)] / Bonded Tokens Ratio
-	bInflationRate := new(big.Float).Quo(aprData.bAnnualProvisions, aprData.bTotalSupply)
-	bBondedTokenRatio := new(big.Float).Quo(aprData.bBondedTokens, aprData.bTotalSupply)
-	bRewardRate := new(big.Float).Mul(bInflationRate, (new(big.Float).Sub(big.NewFloat(1), aprData.bCommunityTax)))
+	totalSupply, _, _ := new(big.Float).Parse("420000000", 10)
+	yearDays, _, _ := new(big.Float).Parse("365", 10)
+	yearMintingProvision := new(big.Float).Mul(new(big.Float).Mul(aprData.bEpochProvisions, aprData.bStakingDistributions), yearDays)
+	inflation := new(big.Float).Quo(yearMintingProvision, totalSupply)
+	ratio := new(big.Float).Quo(aprData.bBondedTokens, totalSupply)
 
-	aprData.bRate = new(big.Float).Quo(bRewardRate, bBondedTokenRatio)
+	aprData.bRate = new(big.Float).Quo(inflation, ratio)
 	aprData.rate = aprData.bRate.String()
 
 	return aprData, nil

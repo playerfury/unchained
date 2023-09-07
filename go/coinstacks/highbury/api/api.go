@@ -1,6 +1,6 @@
-// Package classification Cosmos Unchained API
+// Package classification Osmosis Unchained API
 //
-// Provides access to cosmos chain data.
+// Provides access to highbury chain data.
 //
 // License: MIT http://opensource.org/licenses/MIT
 //
@@ -23,6 +23,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"github.com/shapeshift/unchained/coinstacks/highbury"
 	"github.com/shapeshift/unchained/internal/log"
 	"github.com/shapeshift/unchained/pkg/api"
 	"github.com/shapeshift/unchained/pkg/cosmos"
@@ -45,17 +46,17 @@ type API struct {
 	handler *Handler
 }
 
-func New(httpClient *cosmos.HTTPClient, grpcClient *cosmos.GRPCClient, wsClient *cosmos.WSClient, blockService *cosmos.BlockService, swaggerPath string) *API {
+func New(httpClient *highbury.HTTPClient, wsClient *cosmos.WSClient, blockService *cosmos.BlockService, swaggerPath string) *API {
 	r := mux.NewRouter()
 
 	handler := &Handler{
 		Handler: &cosmos.Handler{
-			HTTPClient:   httpClient,
-			GRPCClient:   grpcClient,
+			HTTPClient:   httpClient.HTTPClient,
 			WSClient:     wsClient,
 			BlockService: blockService,
-			Denom:        "uatom",
+			Denom:        "ufury",
 		},
+		HTTPClient: httpClient,
 	}
 
 	manager := websocket.NewManager()
@@ -93,7 +94,7 @@ func New(httpClient *cosmos.HTTPClient, grpcClient *cosmos.GRPCClient, wsClient 
 	r.HandleFunc("/", a.Root).Methods("GET")
 
 	r.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		api.HandleResponse(w, http.StatusOK, map[string]string{"status": "up", "coinstack": "cosmos", "connections": strconv.Itoa(manager.ConnectionCount())})
+		api.HandleResponse(w, http.StatusOK, map[string]string{"status": "up", "coinstack": "highbury", "connections": strconv.Itoa(manager.ConnectionCount())})
 	}).Methods("GET")
 
 	r.HandleFunc("/swagger", func(w http.ResponseWriter, r *http.Request) {

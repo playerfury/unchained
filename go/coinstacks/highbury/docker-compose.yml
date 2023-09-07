@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  api:
+    image: unchained-local-go
+    environment:
+      - GOCACHE=/tmp
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.highbury-api.rule=Host(`api.highbury.localhost`)'
+      - 'traefik.http.services.highbury-api.loadbalancer.server.port=3000'
+    command: ["-r", "(pkg|internal|highbury)", "-R", "swagger", "--", "sh", "-c", "swagger generate spec -w coinstacks/highbury -o coinstacks/highbury/api/swagger.json -x protoc-gen-openapiv2 -m && go run cmd/highbury/main.go -env cmd/highbury/.env"]
+    working_dir: /app
+    volumes:
+      - ../..:/app
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    networks:
+      - highbury
+
+networks:
+  highbury:
+    name: highbury_default
+    external: true
