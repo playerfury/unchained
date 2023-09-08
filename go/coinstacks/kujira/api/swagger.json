@@ -8,7 +8,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Provides access to kujira chain data.",
-    "title": "Osmosis Unchained API",
+    "title": "Kujira Unchained API",
     "license": {
       "name": "MIT",
       "url": "http://opensource.org/licenses/MIT"

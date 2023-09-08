@@ -1,4 +1,4 @@
-// Package classification Osmosis Unchained API
+// Package classification Kujira Unchained API
 //
 // Provides access to kujira chain data.
 //
