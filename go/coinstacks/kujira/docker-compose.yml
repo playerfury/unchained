@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  api:
+    image: unchained-local-go
+    environment:
+      - GOCACHE=/tmp
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.kujira-api.rule=Host(`api.kujira.localhost`)'
+      - 'traefik.http.services.kujira-api.loadbalancer.server.port=3000'
+    command: ["-r", "(pkg|internal|kujira)", "-R", "swagger", "--", "sh", "-c", "swagger generate spec -w coinstacks/kujira -o coinstacks/kujira/api/swagger.json -x protoc-gen-openapiv2 -m && go run cmd/kujira/main.go -env cmd/kujira/.env"]
+    working_dir: /app
+    volumes:
+      - ../..:/app
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    networks:
+      - kujira
+
+networks:
+  kujira:
+    name: kujira_default
+    external: true

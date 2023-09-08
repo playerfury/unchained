@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/shapeshift/unchained/coinstacks/fury/api"
+	"github.com/shapeshift/unchained/coinstacks/kujira/api"
 	"github.com/shapeshift/unchained/internal/config"
 	"github.com/shapeshift/unchained/internal/log"
 	"github.com/shapeshift/unchained/pkg/cosmos"
@@ -16,7 +16,7 @@ var (
 	logger = log.WithoutFields()
 
 	envPath     = flag.String("env", "", "path to env file (default: use os env)")
-	swaggerPath = flag.String("swagger", "coinstacks/fury/api/swagger.json", "path to swagger spec")
+	swaggerPath = flag.String("swagger", "coinstacks/kujira/api/swagger.json", "path to swagger spec")
 )
 
 // Config for running application
@@ -48,10 +48,10 @@ func main() {
 	encoding := cosmos.NewEncoding()
 
 	cfg := cosmos.Config{
-		Bech32AddrPrefix:  "fury",
-		Bech32PkPrefix:    "furypub",
-		Bech32ValPrefix:   "furyvaloper",
-		Bech32PkValPrefix: "furyvalpub",
+		Bech32AddrPrefix:  "kujira",
+		Bech32PkPrefix:    "kujirapub",
+		Bech32ValPrefix:   "kujiravaloper",
+		Bech32PkValPrefix: "kujiravalpub",
 		Encoding:          encoding,
 		GRPCURL:           conf.GRPCURL,
 		LCDURL:            conf.LCDURL,

@@ -6,9 +6,9 @@ start() {
   MONIKER=unchained \
   CHAIN_JSON=https://raw.githubusercontent.com/incubus-network/wallet-icons/main/chain.json \
   P2P_POLKACHU=true \
-  run.sh fury start \
+  run.sh kujirad start \
     --rpc.laddr tcp://0.0.0.0:26657 \
-    --minimum-gas-prices 0ufury &
+    --minimum-gas-prices 0ukuji &
   PID="$!"
 }
 

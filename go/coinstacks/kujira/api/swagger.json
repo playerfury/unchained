@@ -7,8 +7,8 @@
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Provides access to highbury chain data.",
-    "title": "Highbury Unchained API",
+    "description": "Provides access to kujira chain data.",
+    "title": "Osmosis Unchained API",
     "license": {
       "name": "MIT",
       "url": "http://opensource.org/licenses/MIT"
@@ -413,7 +413,7 @@
           "$ref": "#/definitions/Staking"
         }
       ],
-      "x-go-package": "github.com/shapeshift/unchained/coinstacks/highbury/api"
+      "x-go-package": "github.com/shapeshift/unchained/coinstacks/kujira/api"
     },
     "ApiError": {
       "description": "Generic api error for handling failed requests",
@@ -449,7 +449,7 @@
           "example": "/cosmos.bank.v1beta1.MsgSend"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "AttributesByEvent": {
       "description": "Contains info about event attributes keyed by event type",
@@ -457,7 +457,7 @@
       "additionalProperties": {
         "$ref": "#/definitions/ValueByAttribute"
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "BadRequestError": {
       "description": "Contains info about a 400 Bad Request response",
@@ -612,7 +612,7 @@
         }
       ],
       "x-go-name": "Account",
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "CosmosSDKInfo": {
       "description": "Contains common cosmossdk info about the running coinstack",
@@ -622,7 +622,7 @@
         }
       ],
       "x-go-name": "Info",
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Delegation": {
       "description": "Contains info about a staking delegation",
@@ -645,7 +645,7 @@
           "$ref": "#/definitions/Validator"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Event": {
       "description": "Contains info about a transaction log event",
@@ -668,7 +668,7 @@
           "example": "message"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "EventsByMsgIndex": {
       "description": "Contains info about transaction events keyed by message index",
@@ -676,7 +676,7 @@
       "additionalProperties": {
         "$ref": "#/definitions/AttributesByEvent"
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "GasAmount": {
       "type": "string",
@@ -691,42 +691,18 @@
         {
           "type": "object",
           "required": [
-            "totalSupply",
-            "bondedTokens",
-            "apr",
-            "annualProvisions",
-            "communityTax"
+            "apr"
           ],
           "properties": {
-            "annualProvisions": {
-              "type": "string",
-              "x-go-name": "AnnualProvisions",
-              "example": "29255184955917.174457731278996910"
-            },
             "apr": {
               "type": "string",
               "x-go-name": "APR",
               "example": "0.1541068456"
-            },
-            "bondedTokens": {
-              "type": "string",
-              "x-go-name": "BondedTokens",
-              "example": "186039736185555"
-            },
-            "communityTax": {
-              "type": "string",
-              "x-go-name": "CommunityTax",
-              "example": "0.020000000000000000"
-            },
-            "totalSupply": {
-              "type": "string",
-              "x-go-name": "TotalSupply",
-              "example": "291107634956378"
             }
           }
         }
       ],
-      "x-go-package": "github.com/shapeshift/unchained/coinstacks/highbury/api"
+      "x-go-package": "github.com/shapeshift/unchained/coinstacks/kujira/api"
     },
     "InternalServerError": {
       "description": "Contains info about a 500 Internal Server Error response",
@@ -776,7 +752,7 @@
           "$ref": "#/definitions/Value"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Pagination": {
       "description": "Contains info about pagination metadata",
@@ -817,7 +793,7 @@
           "$ref": "#/definitions/Validator"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "RedelegationEntry": {
       "description": "Contains info about a redelegation action",
@@ -844,7 +820,7 @@
           "example": "123456.789"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Reward": {
       "description": "Contains info about a validator reward",
@@ -865,7 +841,7 @@
           "$ref": "#/definitions/Validator"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Staking": {
       "description": "Contains info about current staking state",
@@ -906,7 +882,7 @@
           "x-go-name": "Unbondings"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "TransactionHash": {
       "type": "string",
@@ -1001,7 +977,7 @@
           }
         }
       ],
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Unbonding": {
       "description": "Contains info about a staking unbonding",
@@ -1022,7 +998,7 @@
           "$ref": "#/definitions/Validator"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "UnbondingEntry": {
       "description": "Contains info about an unbonding action",
@@ -1041,7 +1017,7 @@
           "example": "1642533407592"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "ValidationError": {
       "description": "Contains info about a 422 Validation Error response",
@@ -1134,7 +1110,7 @@
           "example": "http://superval.com"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "ValidatorCommission": {
       "description": "Contains info about validator commission settings",
@@ -1161,7 +1137,7 @@
           "example": "0.050000000000000000"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "ValidatorUnbonding": {
       "description": "Contains info about validator unbonding settings",
@@ -1184,7 +1160,7 @@
           "example": 1642776702
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Validators": {
       "description": "Contains a list of validators",
@@ -1208,7 +1184,7 @@
           }
         }
       ],
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "Value": {
       "description": "Contains info about an asset value",
@@ -1229,7 +1205,7 @@
           "example": "udenom"
         }
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     },
     "ValueByAttribute": {
       "description": "Contains info about an attribute value keyed by attribute type",
@@ -1237,7 +1213,7 @@
       "additionalProperties": {
         "type": "string"
       },
-      "x-go-package": "github.com/shapeshift/unchained/pkg/highbury"
+      "x-go-package": "github.com/shapeshift/unchained/pkg/cosmos"
     }
   }
 }
